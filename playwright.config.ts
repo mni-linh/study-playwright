@@ -14,7 +14,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Định nghĩa cấu hình, Tập tin này sẽ được Playwright tự động nhận diện khi chạy kiểm thử.
 export default defineConfig({
   // Chỉ định thư mục chứa các tệp kiểm thử. Playwright sẽ tìm và chạy tất cả các tệp trong thư mục ./tests.
-  testDir: "./tests",
+  testDir: "./tests-examples",
   /* Run tests in files in parallel */
   // Bật chế độ chạy các tệp kiểm thử song song để tiết kiệm thời gian. Nếu có bài kiểm thử phụ thuộc lẫn nhau, cần tắt tính năng này (false).
   fullyParallel: true,
@@ -26,7 +26,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   // Quy định số lượng worker (luồng chạy kiểm thử). Trong CI: Chỉ chạy 1 worker để tránh lỗi song song. Ở local: Để Playwright tự động tối ưu (undefined).
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */ 
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // Định nghĩa kiểu báo cáo kiểm thử. Tạo báo cáo dạng HTML. Sau khi chạy kiểm thử, bạn có thể mở file playwright-report/index.html để xem kết quả.
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

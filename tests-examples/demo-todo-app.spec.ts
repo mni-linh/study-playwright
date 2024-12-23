@@ -344,19 +344,25 @@ test.describe("Counter", () => {
   });
 });
 
-/* Gr Test:  */ //loadingggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+/* Gr Test:  */
 test.describe("Clear completed button", () => {
   test.beforeEach(async ({ page }) => {
     await createDefaultTodos(page);
   });
 
+  // Test: hiển thị văn bản todo chính xác
   test("should display the correct text", async ({ page }) => {
+    /* page.locator(".todo-list li .toggle"): Tìm tất cả các hộp kiểm (checkbox) của các todo items trong danh sách (.todo-list).
+      .first(): Lấy hộp kiểm đầu tiên.
+      .check(): Mô phỏng hành động đánh dấu (check) vào hộp kiểm đầu tiên, chuyển trạng thái todo item tương ứng thành "hoàn thành".
+    */
     await page.locator(".todo-list li .toggle").first().check();
     await expect(
       page.getByRole("button", { name: "Clear completed" })
     ).toBeVisible();
   });
 
+  // Test: xóa các mục đã hoàn thành khi nhấn vào nút
   test("should remove completed items when clicked", async ({ page }) => {
     const todoItems = page.getByTestId("todo-item");
     await todoItems.nth(1).getByRole("checkbox").check();
@@ -365,6 +371,7 @@ test.describe("Clear completed button", () => {
     await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
+  // Test: kiểm thử với mô tả "Nút 'Clear completed' nên bị ẩn khi không còn mục nào được hoàn thành
   test("should be hidden when there are no items that are completed", async ({
     page,
   }) => {
@@ -376,7 +383,7 @@ test.describe("Clear completed button", () => {
   });
 });
 
-/* Gr Test:  */
+/* Gr Test: bài kiểm thử với tên "Persistence" để nhóm các bài kiểm thử liên quan đến tính năng lưu trữ.*/
 test.describe("Persistence", () => {
   test("should persist its data", async ({ page }) => {
     // create a new todo locator
@@ -415,6 +422,7 @@ test.describe("Routing", () => {
     await checkTodosInLocalStorage(page, TODO_ITEMS[0]);
   });
 
+  // Test: tính năng lọc "Active": Đảm bảo rằng chỉ các mục chưa hoàn thành được hiển thị trong chế độ Active
   test("should allow me to display active items", async ({ page }) => {
     const todoItem = page.getByTestId("todo-item");
     await page.getByTestId("todo-item").nth(1).getByRole("checkbox").check();
@@ -425,6 +433,7 @@ test.describe("Routing", () => {
     await expect(todoItem).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
+  // Test: Kiểm tra hiển thị ở mỗi tab lọc (All, Active, Completed)
   test("should respect the back button", async ({ page }) => {
     const todoItem = page.getByTestId("todo-item");
     await page.getByTestId("todo-item").nth(1).getByRole("checkbox").check();
@@ -451,6 +460,7 @@ test.describe("Routing", () => {
     await expect(todoItem).toHaveCount(3);
   });
 
+  // Test: hiển thị chính xác các mục To-Do đã hoàn thành khi người dùng chọn bộ lọc "Completed".
   test("should allow me to display completed items", async ({ page }) => {
     await page.getByTestId("todo-item").nth(1).getByRole("checkbox").check();
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
@@ -458,6 +468,7 @@ test.describe("Routing", () => {
     await expect(page.getByTestId("todo-item")).toHaveCount(1);
   });
 
+  // Test: Đảm bảo rằng ứng dụng hiển thị đầy đủ tất cả các mục To-Do (bao gồm cả hoàn thành và chưa hoàn thành) khi người dùng chọn bộ lọc "All".
   test("should allow me to display all items", async ({ page }) => {
     await page.getByTestId("todo-item").nth(1).getByRole("checkbox").check();
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
@@ -467,6 +478,7 @@ test.describe("Routing", () => {
     await expect(page.getByTestId("todo-item")).toHaveCount(3);
   });
 
+  // Test: Xác minh rằng ứng dụng làm nổi bật đúng bộ lọc hiện đang được áp dụng (highlight filter).
   test("should highlight the currently applied filter", async ({ page }) => {
     await expect(page.getByRole("link", { name: "All" })).toHaveClass(
       "selected"
@@ -487,6 +499,7 @@ test.describe("Routing", () => {
 });
 
 // Common function
+// Hàm này được sử dụng để tự động tạo một danh sách các mục công việc ("to-dos") mặc định trong ứng dụng.
 async function createDefaultTodos(page: Page) {
   // create a new todo locator
   const newTodo = page.getByPlaceholder("What needs to be done?");
@@ -497,6 +510,7 @@ async function createDefaultTodos(page: Page) {
   }
 }
 
+// Hàm này được sử dụng để kiểm tra xem số lượng mục công việc ("to-dos") trong Local Storage của trình duyệt có đúng với giá trị kỳ vọng hay không.
 async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
   return await page.waitForFunction((e) => {
     return JSON.parse(localStorage["react-todos"]).length === e;
@@ -507,6 +521,7 @@ async function checkNumberOfCompletedTodosInLocalStorage(
   page: Page,
   expected: number
 ) {
+  // sử dụng waitForFunction để kiểm tra số lượng mục công việc trong localStorage. Playwright sẽ đợi cho đến khi điều kiện kiểm tra (số lượng mục trong localStorage khớp với giá trị expected) được đáp ứng
   return await page.waitForFunction((e) => {
     return (
       JSON.parse(localStorage["react-todos"]).filter(
@@ -516,6 +531,7 @@ async function checkNumberOfCompletedTodosInLocalStorage(
   }, expected);
 }
 
+// Hàm checkTodosInLocalStorage hiện tại sẽ kiểm tra xem một title (tên của một todo item) có tồn tại trong localStorage hay không
 async function checkTodosInLocalStorage(page: Page, title: string) {
   return await page.waitForFunction((t) => {
     return JSON.parse(localStorage["react-todos"])

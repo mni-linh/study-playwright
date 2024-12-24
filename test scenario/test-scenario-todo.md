@@ -1,187 +1,72 @@
-# 1. Test Scenario: Add New Todo
+# 1. New Todo
 
-## Scenario 1.1: Add Single Todo - Kiểm tra việc thêm một mục Todo duy nhất vào danh sách.
 
-### Test Case 1.1.1: Add Single Todo
+| ID     | Test Case                        | Các bước thực hiện                                                                                                                        | Kết quả mong đợi                                                                                         |
+|--------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| TC01   | Thêm mục todo mới                | 1. Nhập một mục todo mới vào trường nhập liệu. <br> 2. Nhấn "Enter" để thêm mục vào danh sách. <br> 3. Kiểm tra rằng mục mới được thêm vào danh sách. | Mục mới sẽ được thêm vào danh sách và hiển thị chính xác trên giao diện.                              |
+| TC02   | Làm trống trường nhập liệu sau khi thêm todo | 1. Nhập một mục todo vào trường nhập liệu. <br> 2. Nhấn "Enter" để thêm mục vào danh sách. <br> 3. Kiểm tra rằng trường nhập liệu đã bị làm trống. | Trường nhập liệu sẽ trở lại trống sau khi thêm mục todo mới.                                            |
+| TC03   | Thêm các mục vào cuối danh sách | 1. Thêm ba mục todo vào danh sách. <br> 2. Kiểm tra rằng các mục todo mới được thêm vào cuối danh sách. <br> 3. Kiểm tra số lượng mục trong danh sách. | Các mục todo mới sẽ được thêm vào cuối danh sách và số lượng mục todo sẽ được cập nhật chính xác.    |
 
-- ID: TC_001
-- Mô tả: Kiểm tra người dùng có thể thêm một mục vào danh sách Todo.
-- Dữ liệu đầu vào: "buy some cheese"
-- Bước thực hiện:
-  1. Mở trang Todo.
-  2. Nhập buy some cheese vào ô nhập liệu.
-  3. Nhấn "Enter" để thêm mục.
-  4. Kiểm tra rằng danh sách Todo chỉ có một mục với tên là buy some cheese.
-- Kết quả mong đợi: Danh sách Todo có một mục duy nhất là "buy some cheese".
+# 2. Mark all as completed
 
-## Scenario 1.2: Add Multiple Todos - Kiểm tra việc thêm nhiều mục Todo vào danh sách.
+- Preconditions
+  - Danh sách Todo đã được khởi tạo với 3 mục mặc định bằng cách sử dụng createDefaultTodos(page).
+- Postconditions
+  - Sau khi thực hiện mỗi test case, đảm bảo rằng danh sách Todo vẫn có 3 mục.
 
-### Test Case 1.2.1: Add Multiple Todos
+| ID    | Test Case                                                   | Steps                                                                                                                                                                                                      | Expected Result                                                                                                                                                               |
+| ----- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC001 | Đánh dấu tất cả các mục Todo là hoàn thành                  | 1. Mở trang danh sách Todo. <br> 2. Nhấn chọn checkbox "Mark all as complete".                                                                                                                             | Tất cả các mục Todo hiển thị với class completed. <br> Số lượng Todo hoàn thành trong Local Storage là 3.                                                                     |
+| TC002 | Hủy trạng thái hoàn thành của tất cả các mục Todo           | 1. Mở trang danh sách Todo. <br> 2. Nhấn chọn checkbox "Mark all as complete". <br> 3. Bỏ chọn checkbox "Mark all as complete".                                                                            | Không có mục Todo nào hiển thị class completed.                                                                                                                               |
+| TC003 | Checkbox "Mark all as complete" cập nhật trạng thái tự động | 1. Nhấn chọn checkbox "Mark all as complete". <br> 2. Kiểm tra checkbox "Mark all as complete" được chọn. <br> 3. Bỏ chọn checkbox của mục Todo đầu tiên. <br> 4. Chọn lại checkbox của mục Todo đầu tiên. | 1. Checkbox "Mark all as complete" hiển thị trạng thái đúng với danh sách Todo. <br> 2. Khi các mục được chọn lại, checkbox "Mark all as complete" tự động được đánh dấu lại. |
 
-- ID: TC_002
-- Mô tả: Kiểm tra người dùng có thể thêm nhiều mục vào danh sách Todo.
-- Dữ liệu đầu vào: "buy some cheese", "feed the cat"
-- Bước thực hiện:
-  1. Nhập buy some cheese vào ô nhập liệu và nhấn "Enter".
-  2. Kiểm tra danh sách Todo có một mục.
-  3. Nhập feed the cat vào ô nhập liệu và nhấn "Enter".
-  4. Kiểm tra danh sách Todo có hai mục.
-- Kết quả mong đợi: Danh sách Todo có hai mục: "buy some cheese" và "feed the cat".
+# 3. Item
 
-## Scenario 1.3: Clear Input Field - Kiểm tra trường nhập liệu có bị làm trống sau khi thêm một Todo mới.
+# Test Cases for Todo List
 
-### Test Case 1.3.1: Clear Input Field
+| ID    | Tên Test Case                                   | Các bước thực hiện                                                                                                                                                                    | Kết quả mong đợi                                                                                                                                           |
+| ----- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC001 | Kiểm tra đánh dấu các mục Todo là hoàn thành    | 1. Tạo hai mục Todo. <br> 2. Đánh dấu mục đầu tiên là hoàn thành. <br> 3. Đánh dấu mục thứ hai là hoàn thành.                                                                         | 1. Mục Todo đầu tiên được đánh dấu là hoàn thành với class completed. <br> 2. Mục Todo thứ hai cũng được đánh dấu là hoàn thành sau khi đánh dấu checkbox. |
+| TC002 | Kiểm tra bỏ đánh dấu hoàn thành các mục Todo    | 1. Tạo hai mục Todo. <br> 2. Đánh dấu mục đầu tiên là hoàn thành. <br> 3. Bỏ đánh dấu mục Todo đầu tiên.                                                                              | 1. Mục Todo đầu tiên không còn được đánh dấu là hoàn thành (class completed bị loại bỏ). <br> 2. Local storage cập nhật với 0 mục Todo đã hoàn thành.      |
+| TC003 | Kiểm tra chỉnh sửa một mục Todo trong danh sách | 1. Khởi tạo danh sách Todo với các mục mặc định. <br> 2. Double-click vào mục Todo thứ hai để chỉnh sửa. <br> 3. Thay đổi văn bản của mục Todo thứ hai. <br> 4. Lưu mục đã chỉnh sửa. | 1. Mục Todo thứ hai hiển thị văn bản đã cập nhật. <br> 2. Local storage được cập nhật với giá trị mới của mục Todo thứ hai.                                |
 
-- ID: TC_003
-- Mô tả: Kiểm tra trường nhập liệu có được làm trống sau khi một mục Todo mới được thêm vào.
-- Dữ liệu đầu vào: "buy some cheese"
-- Bước thực hiện:
-  1. Nhập "buy some cheese" vào ô nhập liệu và nhấn "Enter".
-  2. Kiểm tra rằng ô nhập liệu đã trống.
-- Kết quả mong đợi: Trường nhập liệu bị làm trống sau khi nhấn "Enter".
+# 4. Editing
 
-# 2. Test Scenario: Mark All Todos as Completed
+| ID   | Test Case                                      | Các bước thực hiện                                                                                                                      | Kết quả mong đợi                                            |
+| ---- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| TC01 | Kiểm tra checkbox bị ẩn khi chỉnh sửa          | 1. Kích đúp vào mục Todo thứ hai để bắt đầu chỉnh sửa. <br> 2. Kiểm tra xem checkbox và nhãn có ẩn đi hay không.                        | Checkbox và nhãn bị ẩn khi chỉnh sửa mục Todo.              |
+| TC02 | Lưu lại các chỉnh sửa khi rời khỏi trường nhập | 1. Kích đúp vào mục Todo thứ hai. <br> 2. Nhập nội dung mới vào trường nhập liệu. <br> 3. Mất tiêu điểm và kiểm tra lại danh sách Todo. | Nội dung mới được lưu lại và hiển thị trong danh sách Todo. |
+| TC03 | Cắt bỏ khoảng trắng thừa khi nhập văn bản      | 1. Kích đúp vào mục Todo thứ hai. <br> 2. Nhập văn bản có khoảng trắng thừa ở hai đầu. <br> 3. Nhấn "Enter" để lưu lại.                 | Khoảng trắng thừa bị cắt bỏ và nội dung hiển thị đúng.      |
+| TC04 | Xóa todo item nếu nhập chuỗi trống             | 1. Kích đúp vào mục Todo thứ hai. <br> 2. Xóa toàn bộ nội dung trong trường nhập liệu. <br> 3. Nhấn "Enter" để xác nhận.                | Mục Todo bị xóa khỏi danh sách Todo.                        |
+| TC05 | Hủy bỏ thay đổi khi nhấn Escape                | 1. Kích đúp vào mục Todo thứ hai. <br> 2. Nhập nội dung mới. <br> 3. Nhấn phím "Escape" để hủy thay đổi.                                | Các thay đổi bị hủy và mục Todo trở lại giá trị ban đầu.    |
 
-## Scenario 2.1: Mark All Todos as Completed
+# 5. Counter
 
-### Test Case 2.1.1: Mark All Todos as Completed
+| ID   | Test Case                                    | Các bước thực hiện                                                                                                                                                                       | Kết quả mong đợi                                                              |
+| ---- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| TC01 | Kiểm tra hiển thị số lượng mục todo hiện tại | 1. Tìm và điền vào trường nhập mới Todo. <br> 2. Nhấn "Enter" để thêm Todo vào danh sách. <br> 3. Kiểm tra xem số lượng Todo hiển thị chính xác không. <br> 4. Lặp lại với Todo thứ hai. | Số lượng Todo hiển thị chính xác trong phần tử "todo-count" (1, sau đó là 2). |
 
-- ID: TC_004
-- Mô tả: Kiểm tra người dùng có thể đánh dấu tất cả mục Todo là hoàn thành.
-- Dữ liệu đầu vào: None
-- Bước thực hiện:
+# 6. Clear completed button
 
-  1. Kiểm tra và đánh dấu "Mark all as complete".
-  2. Kiểm tra rằng tất cả các mục Todo có class "completed".
+| ID   | Test Case                                                   | Các bước thực hiện                                                                                                                                                                    | Kết quả mong đợi                                                        |
+| ---- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| TC01 | Hiển thị văn bản todo chính xác                             | 1. Đánh dấu mục todo đầu tiên là hoàn thành bằng cách click vào checkbox. <br> 2. Kiểm tra xem nút "Clear completed" có hiển thị không.                                               | Nút "Clear completed" hiển thị.                                         |
+| TC02 | Xóa các mục đã hoàn thành khi nhấn vào nút                  | 1. Đánh dấu mục todo thứ hai là hoàn thành. <br> 2. Click vào nút "Clear completed". <br> 3. Kiểm tra số lượng các mục todo còn lại trong danh sách.                                  | Chỉ còn lại 2 mục todo và nội dung hiển thị là các mục chưa hoàn thành. |
+| TC03 | Nút 'Clear completed' bị ẩn khi không có mục nào hoàn thành | 1. Đánh dấu mục todo đầu tiên là hoàn thành. <br> 2. Nhấn vào nút "Clear completed". <br> 3. Kiểm tra xem nút "Clear completed" có bị ẩn không khi không còn mục todo nào hoàn thành. | Nút "Clear completed" bị ẩn sau khi xóa tất cả các mục đã hoàn thành.   |
 
-- Kết quả mong đợi: Tất cả các mục Todo đều có class "completed".
+# 7. Persistence
 
-## Scenario 2.2: Clear Completed State
+| ID   | Test Case                                             | Các bước thực hiện                                                                                                                                                                                                                                                                                                                                                              | Kết quả mong đợi                                                                                                                                                        |
+| ---- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC01 | Dữ liệu được lưu trữ và duy trì sau khi tải lại trang | 1. Nhập 2 mục todo từ danh sách TODO_ITEMS vào ô nhập liệu. <br> 2. Đánh dấu mục todo đầu tiên là hoàn thành. <br> 3. Kiểm tra rằng mục đầu tiên được đánh dấu là hoàn thành và các mục khác không có lớp "completed". <br> 4. Kiểm tra số lượng mục hoàn thành trong LocalStorage. <br> 5. Tải lại trang và kiểm tra lại các mục todo, trạng thái checkbox và lớp "completed". | Sau khi tải lại trang, tất cả dữ liệu (mục todo và trạng thái hoàn thành) được duy trì, mục đầu tiên vẫn được đánh dấu là hoàn thành và các mục khác không bị thay đổi. |
 
-### Test Case 2.2.1: Clear Completed State
+# 8. Routing
 
-- ID: TC_005
-- Mô tả: Kiểm tra người dùng có thể xóa trạng thái hoàn thành của tất cả các mục Todo.
-- Dữ liệu đầu vào: None
-- Bước thực hiện:
-  1. Đánh dấu "Mark all as complete".
-  2. Hủy đánh dấu "Mark all as complete".
-  3. Kiểm tra rằng không có mục Todo nào có class "completed".
-- Kết quả mong đợi: Không có mục Todo nào có class "completed".
 
-# 3. Test Scenario: Mark Todo as Completed
-
-## Scenario 3.1: Mark Individual Todo as Completed
-
-### Test Case 3.1.1: Mark Individual Todo as Completed
-
-- ID: TC_006
-- Mô tả: Kiểm tra người dùng có thể đánh dấu một mục Todo là hoàn thành.
-- Dữ liệu đầu vào: "buy some cheese", "feed the cat"
-- Bước thực hiện:
-
-  1. Tạo hai mục Todo: "buy some cheese", "feed the cat".
-  2. Đánh dấu mục Todo đầu tiên là hoàn thành.
-  3. Kiểm tra rằng mục Todo đầu tiên có class "completed".
-
-- Kết quả mong đợi: Mục Todo đầu tiên có class "completed".
-
-## Scenario 3.2: Un-mark Todo as Completed
-
-### Test Case 3.2.1: Un-mark Todo as Completed
-
-- ID: TC_007
-- Mô tả: Kiểm tra người dùng có thể bỏ đánh dấu hoàn thành một mục Todo.
-- Dữ liệu đầu vào: "buy some cheese"
-- Bước thực hiện:
-
-  1. Đánh dấu mục Todo đầu tiên là hoàn thành.
-  2. Hủy đánh dấu mục Todo đầu tiên.
-  3. Kiểm tra rằng mục Todo không có class "completed".
-
-- Kết quả mong đợi: Mục Todo đầu tiên không có class "completed".
-
-# 4. Test Scenario: Edit Todo
-
-## Scenario 4.1: Edit Todo Item
-
-### Test Case 4.1.1: Edit Todo Item
-
-- ID: TC_008
-- Mô tả: Kiểm tra người dùng có thể chỉnh sửa một mục Todo.
-- Dữ liệu đầu vào: "buy some cheese" (chỉnh sửa thành "buy some sausages")
-- Bước thực hiện:
-  1. Tạo một mục Todo: "buy some cheese".
-  2. Chỉnh sửa mục Todo thành "buy some sausages".
-  3. Kiểm tra mục Todo đã được sửa đổi thành công.
-- Kết quả mong đợi: Mục Todo được sửa thành "buy some sausages".
-
-## Scenario 4.2: Save Edits on Blur
-
-### Test Case 4.2.1: Save Edits on Blur
-
-- ID: TC_009
-- Mô tả: Kiểm tra việc chỉnh sửa mục Todo sẽ được lưu lại khi mất focus.
-- Dữ liệu đầu vào: "buy some sausages"
-- Bước thực hiện:
-  1. Chỉnh sửa mục Todo.
-  2. Nhấn ra ngoài ô nhập liệu (blur).
-  3. Kiểm tra mục Todo đã được lưu lại đúng.
-- Kết quả mong đợi: Mục Todo được lưu lại sau khi mất focus.
-
-## Scenario 4.3: Cancel Edits on Escape
-
-### Test Case 4.3.1: Cancel Edits on Escape
-
-- ID: TC_010
-- Mô tả: Kiểm tra chỉnh sửa mục Todo sẽ bị hủy nếu nhấn phím Escape.
-- Dữ liệu đầu vào: "buy some sausages"
-- Bước thực hiện:
-  1. Chỉnh sửa mục Todo thành "buy some sausages".
-  2. Nhấn phím Escape.
-  3. Kiểm tra mục Todo vẫn giữ nguyên giá trị ban đầu.
-- Kết quả mong đợi: Mục Todo không thay đổi và giữ nguyên giá trị ban đầu.
-
-## Scenario 4.4: Trim Text Input
-
-### Test Case 4.4.1: Trim Text Input
-
-- ID: TC_011
-- Mô tả: Kiểm tra việc nhập văn bản có tự động cắt bỏ khoảng trắng dư thừa.
-- Dữ liệu đầu vào: " buy some sausages "
-- Bước thực hiện:
-
-  1. Chỉnh sửa mục Todo và thêm khoảng trắng dư thừa.
-  2. Nhấn Enter để lưu.
-  3. Kiểm tra rằng mục Todo đã được lưu mà không có khoảng trắng dư thừa.
-
-- Kết quả mong đợi: Mục Todo được lưu mà không có khoảng trắng dư thừa.
-
-## Scenario 4.5: Remove Todo if Empty Text
-
-### Test Case 4.5.1: Remove Todo if Empty Text
-
-- ID: TC_012
-- Mô tả: Kiểm tra mục Todo sẽ bị xóa nếu người dùng nhập chuỗi trống.
-- Dữ liệu đầu vào: ""
-- Bước thực hiện:
-  1. Chỉnh sửa mục Todo và nhập chuỗi trống.
-  2. Nhấn Enter để lưu.
-  3. Kiểm tra rằng mục Todo đã bị xóa.
-- Kết quả mong đợi: Mục Todo bị xóa khỏi danh sách.
-
-# 5. Test Scenario: Todo Counter
-
-## Scenario 5.1: Display Current Todo Count
-
-### Test Case 5.1.1: Display Current Todo Count
-
-- ID: TC_013
-- Mô tả: Kiểm tra số lượng mục Todo hiện tại được hiển thị chính xác.
-- Dữ liệu đầu vào: "buy some cheese", "feed the cat"
-- Bước thực hiện:
-  1. Thêm mục Todo "buy some cheese".
-  2. Kiểm tra rằng số lượng mục Todo hiển thị là 1.
-  3. Thêm mục Todo "feed the cat".
-  4. Kiểm tra rằng số lượng mục Todo hiển thị là 2.
-- Kết quả mong đợi: Số lượng mục Todo hiển thị đúng là 2.
+| ID     | Test Case                                         | Các bước thực hiện                                                                                                                         | Kết quả mong đợi                                                                                         |
+|--------|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| TC01   | Lọc "Active" - Hiển thị các mục chưa hoàn thành | 1. Đánh dấu một mục todo là hoàn thành. <br> 2. Nhấp vào liên kết "Active". <br> 3. Kiểm tra rằng chỉ có các mục chưa hoàn thành được hiển thị. | Chỉ có các mục chưa hoàn thành được hiển thị khi lọc theo "Active".                                     |
+| TC02   | Quay lại trang trước khi thay đổi bộ lọc        | 1. Đánh dấu một mục todo là hoàn thành. <br> 2. Chọn các bộ lọc "All", "Active", "Completed" theo thứ tự. <br> 3. Nhấn nút quay lại trang trước. | Các mục todo hiển thị đúng theo bộ lọc đã chọn trước khi quay lại.                                    |
+| TC03   | Lọc "Completed" - Hiển thị các mục đã hoàn thành | 1. Đánh dấu một mục todo là hoàn thành. <br> 2. Nhấp vào liên kết "Completed". <br> 3. Kiểm tra rằng chỉ có các mục đã hoàn thành được hiển thị. | Chỉ có các mục đã hoàn thành được hiển thị khi lọc theo "Completed".                                 |
+| TC04   | Lọc "All" - Hiển thị tất cả các mục             | 1. Đánh dấu một mục todo là hoàn thành. <br> 2. Lọc theo "Active" và "Completed". <br> 3. Chọn bộ lọc "All".                         | Tất cả các mục (hoàn thành và chưa hoàn thành) được hiển thị khi lọc theo "All".                    |
+| TC05   | Làm nổi bật bộ lọc đang được áp dụng            | 1. Kiểm tra lớp "selected" trên bộ lọc "All". <br> 2. Chọn bộ lọc "Active" và "Completed" lần lượt. <br> 3. Kiểm tra lớp "selected" trên bộ lọc hiện tại. | Bộ lọc đang được áp dụng sẽ có lớp "selected".                                                           |

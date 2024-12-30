@@ -14,7 +14,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Định nghĩa cấu hình, Tập tin này sẽ được Playwright tự động nhận diện khi chạy kiểm thử.
 export default defineConfig({
   // Chỉ định thư mục chứa các tệp kiểm thử. Playwright sẽ tìm và chạy tất cả các tệp trong thư mục ./tests.
-  testDir: "./daily-exercises/2024-12/30",
+  testDir: "./daily-exercises/2024-12/30/excercise-2",
   /* Run tests in files in parallel */
   // Bật chế độ chạy các tệp kiểm thử song song để tiết kiệm thời gian. Nếu có bài kiểm thử phụ thuộc lẫn nhau, cần tắt tính năng này (false).
   fullyParallel: true,

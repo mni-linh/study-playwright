@@ -1,4 +1,4 @@
-// Javascript
+/* Javascript */
 function calculateBMI(height: number, weight: number) {
   const BMI = weight / (height * height);
   if (BMI < 18.5) {
@@ -14,10 +14,10 @@ function calculateBMI(height: number, weight: number) {
 
 calculateBMI(1.75, 68);
 
-// Playwright
+/* Playwright */
 import { test, expect } from "@playwright/test";
 
-test("2024-12-30", async ({ page }) => {
+test("2024-12-30 _ 1", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
   await page
     .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })

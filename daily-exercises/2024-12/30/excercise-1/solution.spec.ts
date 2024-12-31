@@ -1,4 +1,4 @@
-/* Javascript */
+/* JAVASCRIPT */
 function calculateBMI(height: number, weight: number) {
   const BMI = weight / (height * height);
   if (BMI < 18.5) {
@@ -14,7 +14,7 @@ function calculateBMI(height: number, weight: number) {
 
 calculateBMI(1.75, 68);
 
-/* Playwright */
+/* PLAYWRIGHT */
 import { test, expect } from "@playwright/test";
 
 test("2024-12-30 _ 1", async ({ page }) => {

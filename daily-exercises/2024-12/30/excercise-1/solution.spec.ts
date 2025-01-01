@@ -17,15 +17,11 @@ calculateBMI(1.75, 68);
 /* PLAYWRIGHT */
 import { test, expect } from "@playwright/test";
 
-test("2024-12-30 _ 1", async ({ page }) => {
+test("problem 1", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
   await page
     .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })
     .click();
-
-  await expect(page).toHaveURL(
-    "https://material.playwrightvn.com/01-xpath-register-page.html"
-  );
 
   const username = "mni-linh";
   const email = "tranthitulinh1305@gmail.com";
@@ -34,6 +30,9 @@ test("2024-12-30 _ 1", async ({ page }) => {
   await page.locator("#email").fill(email);
   await page.getByRole("button", { name: "Register" }).click();
 
+  await expect(page).toHaveURL(
+    "https://material.playwrightvn.com/01-xpath-register-page.html"
+  );
   await expect(page.locator("//tbody//tr")).toHaveCount(1);
   await expect(page.locator("//tbody//td").nth(1)).toHaveText(username);
   await expect(page.locator("//tbody//td").nth(2)).toHaveText(email);

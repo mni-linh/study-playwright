@@ -1,12 +1,12 @@
 /* JAVASCRIPT */
-function reverseString(input) {
+function reverseString(input:string) {
   const characters = input.split("");
 
   const reversedCharacters = characters.reverse();
 
   const reversedString = reversedCharacters.join("");
 
-  console.log("Chuỗi đảo ngược:", reversedString);
+  console.log(`Chuỗi đảo ngược của ${input}:`, reversedString);
 
   return reversedString;
 }
@@ -33,7 +33,7 @@ const infoUser = {
   enableFeature: "Enable Feature",
 };
 
-test("2024-12-30 _ 2", async ({ page }) => {
+test("problem 2", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
   await page
     .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })

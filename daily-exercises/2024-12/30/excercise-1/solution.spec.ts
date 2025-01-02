@@ -18,22 +18,32 @@ calculateBMI(1.75, 68);
 import { test, expect } from "@playwright/test";
 
 test("problem 1", async ({ page }) => {
+  // Step 1: Navigate to the Register Page
   await page.goto("https://material.playwrightvn.com/");
   await page
     .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })
     .click();
 
+  // Step 2: Fill in Registration Details
   const username = "mni-linh";
   const email = "tranthitulinh1305@gmail.com";
 
   await page.locator("#username").fill(username);
   await page.locator("#email").fill(email);
+
+  // Step 3: Submit the Registration Form
   await page.getByRole("button", { name: "Register" }).click();
 
+  // Step 4: Validate Navigation to the Register Page
   await expect(page).toHaveURL(
     "https://material.playwrightvn.com/01-xpath-register-page.html"
   );
+  
+  // Step 5: Validate Registration Table
+  // Ensure only one row exists in the table
   await expect(page.locator("//tbody//tr")).toHaveCount(1);
+
+  // Validate Username and Email in the table
   await expect(page.locator("//tbody//td").nth(1)).toHaveText(username);
   await expect(page.locator("//tbody//td").nth(2)).toHaveText(email);
 });

@@ -25,7 +25,11 @@ test("problem 3", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
   await page.getByRole("link", { name: "Bài học 2: Product page" }).click();
 
-  // Thêm sản phẩm vào giỏ hàng
+  await expect(page).toHaveURL(
+    "https://material.playwrightvn.com/02-xpath-product-page.html"
+  );
+
+  // Add product to cart
   await page.locator('button[data-product-id="1"]').click();
   await page.locator('button[data-product-id="1"]').click();
   await page.locator('button[data-product-id="2"]').click();
@@ -58,40 +62,36 @@ test("problem 3", async ({ page }) => {
     );
   }
 
-  // Biến lưu tổng tiền tính toán
+  // calculatedTotalPrice: the total amount of calculation
   let calculatedTotalPrice = 0;
 
-  // Duyệt qua từng sản phẩm để tính tổng tiền
+  // Browse each product to calculate the total
   for (let i = 0; i < rowCount; i++) {
     const priceText = await rows
       .nth(i)
-      .locator("td:nth-child(1)")
-      .textContent(); // Lấy giá
+      .locator("td:nth-child(2)")
+      .textContent();
     const quantityText = await rows
       .nth(i)
-      .locator("td:nth-child(2)")
-      .textContent(); // Lấy số lượng
+      .locator("td:nth-child(3)")
+      .textContent();
     const totalText = await rows
       .nth(i)
-      .locator("td:nth-child(3)")
-      .textContent(); // Lấy tổng tiền sản phẩm
+      .locator("td:nth-child(4)")
+      .textContent();
 
-    // Chuyển đổi sang số
     const price = parseFloat(priceText.replace("$", ""));
     const quantity = parseInt(quantityText.trim());
     const total = parseFloat(totalText.replace("$", ""));
 
-    // Tính tổng tiền từng sản phẩm
     const calculatedProductTotal = price * quantity;
 
-    // Kiểm tra tổng tiền từng sản phẩm đúng
-    await expect(total).toBeCloseTo(calculatedProductTotal, 2); // Kiểm tra với độ chính xác 2 chữ số thập phân
+    await expect(total).toBeCloseTo(calculatedProductTotal, 2); // Test with 2 decimal places accuracy
 
-    // Cộng vào tổng tiền
     calculatedTotalPrice += calculatedProductTotal;
   }
 
-  // Lấy tổng tiền hiển thị
+  // Get the total amount displayed
   const displayedTotalPriceText = await page
     .locator(".total-price")
     .textContent();
@@ -99,12 +99,9 @@ test("problem 3", async ({ page }) => {
     displayedTotalPriceText.replace("$", "")
   );
 
-  // Kiểm tra tổng tiền toàn bộ sản phẩm đúng
-  await expect(displayedTotalPrice).toBeCloseTo(calculatedTotalPrice, 2);
-
   console.log("Tổng tiền tính toán:", calculatedTotalPrice);
   console.log("Tổng tiền hiển thị:", displayedTotalPrice);
-  await expect(page).toHaveURL(
-    "https://material.playwrightvn.com/02-xpath-product-page.html"
-  );
+
+  // Check the total cost of all products is correct
+  await expect(displayedTotalPrice).toBeCloseTo(calculatedTotalPrice, 2);
 });

@@ -22,14 +22,18 @@ isPrime(1);
 /* PLAYWRIGHT*/
 import { test, expect } from "@playwright/test";
 test("problem 3", async ({ page }) => {
+  // Step 1: Navigate to the website
   await page.goto("https://material.playwrightvn.com/");
+
+  // Step 2: Go to the product page
   await page.getByRole("link", { name: "Bài học 2: Product page" }).click();
 
+  // Verify the correct URL is loaded
   await expect(page).toHaveURL(
     "https://material.playwrightvn.com/02-xpath-product-page.html"
   );
 
-  // Add product to cart
+  // Step 3: Add products to the cart
   await page.locator('button[data-product-id="1"]').click();
   await page.locator('button[data-product-id="1"]').click();
   await page.locator('button[data-product-id="2"]').click();
@@ -38,6 +42,7 @@ test("problem 3", async ({ page }) => {
   await page.locator('button[data-product-id="3"]').click();
   await page.locator('button[data-product-id="3"]').click();
 
+  // Step 4: Verify cart items - Check quantities of each product
   const rows = await page.locator("#cart-items tr");
   const rowCount = await rows.count();
   const expectedQuantities = {
@@ -57,41 +62,41 @@ test("problem 3", async ({ page }) => {
       `Product: ${productName?.trim()}, Quantity: ${quantity?.trim()}`
     );
 
+    // Step 5: Verify correct quantity for each product
     await expect(quantity?.trim()).toBe(
       expectedQuantities[productName?.trim() || ""]
     );
   }
 
+  // Step 6: Calculate the total price for all products
   // calculatedTotalPrice: the total amount of calculation
   let calculatedTotalPrice = 0;
 
-  // Browse each product to calculate the total
+  //  Loop through each product row to calculate the total price
   for (let i = 0; i < rowCount; i++) {
-    const priceText = await rows
-      .nth(i)
-      .locator("td:nth-child(2)")
-      .textContent();
-    const quantityText = await rows
-      .nth(i)
-      .locator("td:nth-child(3)")
-      .textContent();
-    const totalText = await rows
-      .nth(i)
-      .locator("td:nth-child(4)")
-      .textContent();
+    const priceText =
+      (await rows.nth(i).locator("td:nth-child(2)").textContent()) || "";
+    const quantityText =
+      (await rows.nth(i).locator("td:nth-child(3)").textContent()) || "";
+    const totalText =
+      (await rows.nth(i).locator("td:nth-child(4)").textContent()) || "";
 
+    // Parse the price and quantity
     const price = parseFloat(priceText.replace("$", ""));
     const quantity = parseInt(quantityText.trim());
     const total = parseFloat(totalText.replace("$", ""));
 
+    // Calculate the product total
     const calculatedProductTotal = price * quantity;
 
+    // Step 7: Verify that the total matches the expected value
     await expect(total).toBeCloseTo(calculatedProductTotal, 2); // Test with 2 decimal places accuracy
 
+    // Add the product total to the overall total
     calculatedTotalPrice += calculatedProductTotal;
   }
 
-  // Get the total amount displayed
+  // Step 8: Get the total amount displayed
   const displayedTotalPriceText = await page
     .locator(".total-price")
     .textContent();
@@ -102,6 +107,6 @@ test("problem 3", async ({ page }) => {
   console.log("Tổng tiền tính toán:", calculatedTotalPrice);
   console.log("Tổng tiền hiển thị:", displayedTotalPrice);
 
-  // Check the total cost of all products is correct
+  // Step 9: Verify the total cost is correct
   await expect(displayedTotalPrice).toBeCloseTo(calculatedTotalPrice, 2);
 });

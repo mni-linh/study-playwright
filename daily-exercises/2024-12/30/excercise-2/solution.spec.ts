@@ -1,5 +1,5 @@
 /* JAVASCRIPT */
-function reverseString(input:string) {
+function reverseString(input: string) {
   const characters = input.split("");
 
   const reversedCharacters = characters.reverse();
@@ -34,12 +34,15 @@ const infoUser = {
 };
 
 test("problem 2", async ({ page }) => {
+  // Step 1: Navigate to the application
   await page.goto("https://material.playwrightvn.com/");
+
+  // Step 2: Navigate to the Register Page
   await page
     .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })
     .click();
 
-  // Fill infomation
+  // Step 3: Fill in user information
   await page.getByLabel("Username").fill(infoUser.username);
   await page.getByLabel("Email").fill(infoUser.email);
   await page.getByLabel(infoUser.gender, { exact: true }).check();
@@ -61,10 +64,10 @@ test("problem 2", async ({ page }) => {
   await page.locator(".switch").click();
   await page.getByLabel(infoUser.enableFeature).check();
 
-  // Submit
+  // Step 4: Submit the form
   await page.getByRole("button", { name: "Register" }).click();
 
-  // Expect output
+  // Step 5: Verify output
   await expect(page).toHaveURL(
     "https://material.playwrightvn.com/01-xpath-register-page.html"
   );

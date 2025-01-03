@@ -1,47 +1,31 @@
-## xem lại bài tham khảo của 3 bài trước
 # Javascript
 ## Đề bài:
-Tuổi của một người được tính dựa trên năm sinh của họ và năm hiện tại. Trong bài tập này, bạn sẽ viết một hàm để tính tuổi dựa trên năm sinh được nhập vào. Biết công thức tính tuổi:
-```
-Tuổi = Năm hiện tại - Năm sinh
-```
+Tìm số lớn nhất trong mảng.
+
+Cho một mảng các số nguyên, bạn cần tìm ra số lớn nhất trong mảng đó. Trong bài tập này, bạn sẽ viết một hàm để thực hiện việc tìm kiếm số lớn nhất.
 
 ### Yêu cầu:
-- Viết một hàm JavaScript có tên `calculateAge` để tính số tuổi của một người dựa trên năm sinh của họ.
-- In ra số tuổi tương ứng với năm hiện tại.
-- Nếu năm sinh lớn hơn năm hiện tại, in ra một thông báo lỗi "Năm sinh không hợp lệ."
+- Viết một hàm JavaScript có tên findLargestNumber để tìm số lớn nhất trong một mảng các số nguyên.
+- Nếu mảng rỗng, trả về thông báo "Mảng rỗng".
 
 ## Ví dụ:
-**Input**:
-- Năm sinh: `1990`
+**Input**: 
+- Mảng: [3, 7, 2, 5, 9]
 
 **Output**: 
-- Kết quả: `Tuổi của bạn là: 34`
-
-**Giải thích**: 
-Năm hiện tại là 2024, tuổi của người sinh năm 1990 sẽ là 2024 - 1990 = 34 tuổi.
-
-## Ví dụ khác:
-- Năm sinh: `2025`
-
-**Output**:
-- Kết quả: `Năm sinh không hợp lệ`
+- Kết quả: Số lớn nhất là: 9
 
 **Giải thích**:
-Vì năm sinh không thể lớn hơn năm hiện tại (2024), nên cần trả về thông báo lỗi.
-
-### Gợi ý:
-Bạn có thể lấy năm hiện tại bằng cách sử dụng đối tượng `Date` trong JavaScript.
+- Trong mảng [3, 7, 2, 5, 9], số lớn nhất là 9
 
 # Playwright
 ## Đề bài
 Viết code automation cho test case sau:
 - Đi tới trang: https://material.playwrightvn.com/
-- Click vào: Bài học 3: Todo page
-- Thêm vào todo có nội dung: Xin chào, đây là bài thực hành ngày 18 tháng 9
-- Verify chỉ có 1 Todo duy nhất được add vào.
-- Sửa nội dung Todo: Xin chào, đây là bài thực hành ngày 18 tháng 9 - phiên bản đã chỉnh sửa
-- Verify nội dung đã được chỉnh sửa
-- Xoá Todo
-- Verify Todo đã được xoá.
-
+- Click vào: Bài học 5: Xử lý mouse event
+- Click vào ô: "Nhấn hoặc nhấn đúp vào đây!"
+- Kiểm tra: số lần nhấn = 1, loại nhấn: đơn, phím kèm theo: không có
+- Double click vào ô: "Nhấn hoặc nhấn đúp vào đây!"
+- Kiểm tra: số lần nhân = 3, loại nhấn: đúp, phím kèm theo: không có
+- Giữ shift và click vào ô: "Nhấn hoặc nhấn đúp vào đây!"
+- Kiểm tra: số lần nhấn = 4, loại nhấn: đơn, phím kèm theo: Shift

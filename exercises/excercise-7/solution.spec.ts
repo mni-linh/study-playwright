@@ -1,16 +1,15 @@
 /* JAVASCRIPT */
-function calculateAge(birthYear) {
-  const currentYear = new Date().getFullYear();
+function replaceEmail(inputString) {
+  // Use simpler regular expressions to find emails
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
 
-  if (birthYear > currentYear) {
-    console.log("Năm sinh không hợp lệ");
-  } else {
-    const age = currentYear - birthYear;
-    console.log(`Tuổi của bạn là: ${age}`);
-  }
+  // Replace email with 'hidden@example.com'
+  return inputString.replace(emailRegex, "hidden@example.com");
 }
 
-calculateAge(1990);
-calculateAge(2025);
+// Usage example
+const input = "Liên hệ với tôi qua email john.doe@example.com hoặc support@mydomain.com";
+const output = replaceEmail(input);
+console.log(output);
 
 /* PLAYWRIGHT*/

@@ -1,16 +1,49 @@
 /* JAVASCRIPT */
-function calculateAge(birthYear) {
-  const currentYear = new Date().getFullYear();
+// Create a productList object to store the product list
+const productList = {
+  products: {},
 
-  if (birthYear > currentYear) {
-    console.log("Năm sinh không hợp lệ");
-  } else {
-    const age = currentYear - birthYear;
-    console.log(`Tuổi của bạn là: ${age}`);
+  // Function to add products to the list
+  addProduct(name, price) {
+    if (!name || price <= 0) {
+      console.log("Tên sản phẩm hoặc giá không hợp lệ.");
+      return;
+    }
+    this.products[name] = price;
+    console.log(`Đã thêm sản phẩm: ${name}, giá: ${price}`);
+  },
+
+  // Function to remove products to the list
+  removeProduct(name) {
+    if (this.products[name]) {
+      delete this.products[name];
+      console.log(`Đã xóa sản phẩm: ${name}`);
+    } else {
+      console.log(`Không tìm thấy sản phẩm: ${name}`);
+    }
+  },
+
+  // The function calculates the total value of products in the list
+  calculateTotal() {
+    const total = Object.values(this.products).reduce((sum, price) => sum + price, 0);
+    console.log(`Tổng giá trị sản phẩm: ${total}`);
+    return total;
+  },
+
+  // The function displays a list of products
+  displayProducts() {
+    console.log("Sản phẩm trong danh sách:");
+    for (const [name, price] of Object.entries(this.products)) {
+      console.log(`${name}: ${price}`);
+    }
   }
-}
+};
 
-calculateAge(1990);
-calculateAge(2025);
+// Use functions
+productList.addProduct("Táo", 5000);
+productList.addProduct("Chuối", 3000);
+productList.removeProduct("Chuối");
+productList.displayProducts();
+productList.calculateTotal();
 
 /* PLAYWRIGHT*/

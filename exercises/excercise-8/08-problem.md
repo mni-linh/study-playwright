@@ -1,47 +1,41 @@
-## xem lại bài tham khảo của 3 bài trước
 # Javascript
 ## Đề bài:
-Tuổi của một người được tính dựa trên năm sinh của họ và năm hiện tại. Trong bài tập này, bạn sẽ viết một hàm để tính tuổi dựa trên năm sinh được nhập vào. Biết công thức tính tuổi:
-```
-Tuổi = Năm hiện tại - Năm sinh
-```
+Số từ trong một câu là tổng số các từ cách nhau bởi khoảng trắng. Trong bài tập này, bạn sẽ viết một hàm để đếm số từ trong một chuỗi được người dùng nhập vào. Một từ được định nghĩa là bất kỳ chuỗi ký tự nào không có khoảng trắng.
+
+
 
 ### Yêu cầu:
-- Viết một hàm JavaScript có tên `calculateAge` để tính số tuổi của một người dựa trên năm sinh của họ.
-- In ra số tuổi tương ứng với năm hiện tại.
-- Nếu năm sinh lớn hơn năm hiện tại, in ra một thông báo lỗi "Năm sinh không hợp lệ."
+- Viết một hàm JavaScript có tên `countWords` để đếm số từ trong một chuỗi văn bản.
+- Hàm sẽ nhận vào một chuỗi và trả về số từ trong chuỗi đó.
+- Chuỗi có thể chứa các dấu câu như dấu chấm, dấu phẩy, hoặc dấu chấm than, nhưng chỉ tính số từ dựa trên các khoảng trắng ngăn cách.
 
 ## Ví dụ:
-**Input**:
-- Năm sinh: `1990`
+**Input 1**:
+```javascript
+"Xin chào, tôi là lập trình viên."
+```
 
-**Output**: 
-- Kết quả: `Tuổi của bạn là: 34`
+**Output 1**:
+```javascript
+"Số từ: 7"
+```
 
-**Giải thích**: 
-Năm hiện tại là 2024, tuổi của người sinh năm 1990 sẽ là 2024 - 1990 = 34 tuổi.
+**Input 2**:
+```javascript
+"JavaScript rất thú vị!"
+```
 
-## Ví dụ khác:
-- Năm sinh: `2025`
+**Output 2**:
+```javascript
+"Số từ: 4"
+```
 
-**Output**:
-- Kết quả: `Năm sinh không hợp lệ`
+**Input 3**:
+```javascript
+"      "
+```
 
-**Giải thích**:
-Vì năm sinh không thể lớn hơn năm hiện tại (2024), nên cần trả về thông báo lỗi.
-
-### Gợi ý:
-Bạn có thể lấy năm hiện tại bằng cách sử dụng đối tượng `Date` trong JavaScript.
-
-# Playwright
-## Đề bài
-Viết code automation cho test case sau:
-- Đi tới trang: https://material.playwrightvn.com/
-- Click vào: Bài học 3: Todo page
-- Thêm vào todo có nội dung: Xin chào, đây là bài thực hành ngày 18 tháng 9
-- Verify chỉ có 1 Todo duy nhất được add vào.
-- Sửa nội dung Todo: Xin chào, đây là bài thực hành ngày 18 tháng 9 - phiên bản đã chỉnh sửa
-- Verify nội dung đã được chỉnh sửa
-- Xoá Todo
-- Verify Todo đã được xoá.
-
+**Output 3**:
+```javascript
+"Số từ: 0"
+```

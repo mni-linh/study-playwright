@@ -1,16 +1,22 @@
 /* JAVASCRIPT */
-function calculateAge(birthYear) {
-  const currentYear = new Date().getFullYear();
-
-  if (birthYear > currentYear) {
-    console.log("Năm sinh không hợp lệ");
-  } else {
-    const age = currentYear - birthYear;
-    console.log(`Tuổi của bạn là: ${age}`);
+function findLargestNumber(array) {
+  if (array.length === 0) {
+    return "Mảng rỗng";
   }
+
+  let largest = array[0]; 
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > largest) {
+      largest = array[i]; 
+    }
+  }
+  return `Số lớn nhất là: ${largest}`;
 }
 
-calculateAge(1990);
-calculateAge(2025);
+const array = [3, 7, 2, 5, 9];
+console.log(findLargestNumber(array)); 
+
+const emptyArray = [];
+console.log(findLargestNumber(emptyArray)); 
 
 /* PLAYWRIGHT*/

@@ -38,9 +38,7 @@ test("problem 2", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
 
   // Step 2: Navigate to the Register Page
-  await page
-    .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })
-    .click();
+  await page.getByRole("link", { name: /Register Page/}).click();
 
   // Step 3: Fill in user information
   await page.getByLabel("Username").fill(infoUser.username);

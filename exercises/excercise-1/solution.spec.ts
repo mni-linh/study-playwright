@@ -20,9 +20,8 @@ import { test, expect } from "@playwright/test";
 test("problem 1", async ({ page }) => {
   // Step 1: Navigate to the Register Page
   await page.goto("https://material.playwrightvn.com/");
-  await page
-    .getByRole("link", { name: "Bài học 1: Register Page (có đủ các element)" })
-    .click();
+  await page.getByRole("link", { name: /Register Page/}).click();
+
 
   // Step 2: Fill in Registration Details
   const username = "mni-linh";

@@ -25,7 +25,10 @@ const productList = {
 
   // The function calculates the total value of products in the list
   calculateTotal() {
-    const total = Object.values(this.products).reduce((sum, price) => sum + price, 0);
+    const total = Object.values(this.products).reduce(
+      (sum, price) => sum + price,
+      0
+    );
     console.log(`Tổng giá trị sản phẩm: ${total}`);
     return total;
   },
@@ -36,7 +39,7 @@ const productList = {
     for (const [name, price] of Object.entries(this.products)) {
       console.log(`${name}: ${price}`);
     }
-  }
+  },
 };
 
 // Use functions
@@ -47,3 +50,44 @@ productList.displayProducts();
 productList.calculateTotal();
 
 /* PLAYWRIGHT*/
+import { test, expect } from "@playwright/test";
+
+test.describe("Puzzle Drag and Drop Game", () => {
+  test("Complete the Puzzle", async ({ page }) => {
+    // Test Case 1: Navigate to the website and go to the puzzle page
+    await test.step("Navigate to the puzzle game", async () => {
+      // Step 1: Open the website
+      await page.goto("https://material.playwrightvn.com/");
+
+      // Step 2: Click on the puzzle game link
+      await page
+        .getByRole("link", { name: /Puzzle drag and drop game/ })
+        .click();
+
+      // Step 3: Verify the URL
+      await expect(page).toHaveURL(
+        "https://material.playwrightvn.com/05-xpath-drag-and-drop.html"
+      );
+    });
+
+    // Test Case 2: Drag and drop puzzle pieces to complete the game
+    await test.step("Drag and drop puzzle pieces", async () => {
+      // Step 1: Register the dialog event handler to check the success message
+      page.on("dialog", async (dialog) => {
+        expect(dialog.message()).toBe(
+          "Congratulations! You completed the puzzle."
+        );
+        await dialog.dismiss(); // Dismiss the dialog
+      });
+
+      // Step 2: Loop through each piece and perform drag-and-drop
+      for (let i = 1; i < 5; i++) {
+        const sourceLocator = page.locator(`//div[@id='piece-${i}']`);
+        const destinationLocator = page.locator(`//div[@data-piece='${i}']`);
+
+        // Drag each puzzle piece to its target location
+        await sourceLocator.dragTo(destinationLocator);
+      }
+    });
+  });
+});

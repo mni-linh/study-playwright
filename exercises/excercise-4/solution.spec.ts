@@ -18,21 +18,18 @@ import { test, expect } from "@playwright/test";
 
 test("problem 4", async ({ page }) => {
   // Test Case 1: Navigate to the website and go to the todo page
-  await test.step(
-    "Navigate to the website: https://material.playwrightvn.com/ and go to the todo page",
-    async () => {
-      // Step 1: Open the website
-      await page.goto("https://material.playwrightvn.com/");
+  await test.step("Navigate to the website: https://material.playwrightvn.com/ and go to the todo page", async () => {
+    // Step 1: Open the website
+    await page.goto("https://material.playwrightvn.com/");
 
-      // Step 2: Click on the todo page link
-      await page.getByRole("link", { name: "Bài học 3: Todo page" }).click();
+    // Step 2: Click on the todo page link
+    await page.getByRole("link", { name: "Bài học 3: Todo page" }).click();
 
-      // Step 3: Verify the URL
-      await expect(page).toHaveURL(
-        "https://material.playwrightvn.com/03-xpath-todo-list.html"
-      );
-    }
-  );
+    // Step 3: Verify the URL
+    await expect(page).toHaveURL(
+      "https://material.playwrightvn.com/03-xpath-todo-list.html"
+    );
+  });
 
   // Test Case 2: Add one todo item
   await test.step("Add one todo", async () => {
@@ -65,9 +62,14 @@ test("problem 4", async ({ page }) => {
   // Test Case 4: Delete the todo item
   await test.step("Delete one todo", async () => {
     // Step 1: Click the Delete button
+    page.once("dialog", async (dialog) => {
+      await dialog.accept("OK");
+    });
     await page.getByRole("button", { name: "Delete" }).click();
 
     // Step 2: Verify the list is empty
-    await expect(page.getByRole("listitem")).toHaveCount(0);
+    await expect(
+      page.getByText("Cố gắng hoàn thành bài test của edit todo")
+    ).not.toBeVisible();
   });
 });

@@ -54,9 +54,9 @@ test("problem 2", async ({ page }) => {
   await page.getByLabel("Biography").fill(infoUser.biography);
   await page.getByLabel("Rate Us").fill(infoUser.rateUs);
   await page.locator("#favcolor").evaluate((element: any, value: string) => {
-    element.value = value; // Đặt giá trị mới
-    element.dispatchEvent(new Event("input", { bubbles: true })); // Kích hoạt sự kiện 'input'
-    element.dispatchEvent(new Event("change", { bubbles: true })); // Kích hoạt sự kiện 'change'
+    element.value = value; 
+    element.dispatchEvent(new Event("input", { bubbles: true })); 
+    element.dispatchEvent(new Event("change", { bubbles: true })); 
   }, infoUser.favColor);
   await page.getByLabel(infoUser.newsletter).check();
   await page.locator(".switch").click();

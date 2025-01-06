@@ -22,7 +22,6 @@ test("problem 1", async ({ page }) => {
   await page.goto("https://material.playwrightvn.com/");
   await page.getByRole("link", { name: /Register Page/}).click();
 
-
   // Step 2: Fill in Registration Details
   const username = "mni-linh";
   const email = "tranthitulinh1305@gmail.com";

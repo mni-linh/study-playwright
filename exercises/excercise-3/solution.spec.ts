@@ -22,91 +22,93 @@ isPrime(1);
 /* PLAYWRIGHT*/
 import { test, expect } from "@playwright/test";
 test("problem 3", async ({ page }) => {
-  // Step 1: Navigate to the website
-  await page.goto("https://material.playwrightvn.com/");
+  await test.step("Navigate to the website: https://material.playwrightvn.com/ and go to the product page", async () => {
+    await page.goto("https://material.playwrightvn.com/");
+    await page.getByRole("link", { name: "Bài học 2: Product page" }).click();
 
-  // Step 2: Go to the product page
-  await page.getByRole("link", { name: "Bài học 2: Product page" }).click();
-
-  // Verify the correct URL is loaded
-  await expect(page).toHaveURL(
-    "https://material.playwrightvn.com/02-xpath-product-page.html"
-  );
-
-  // Step 3: Add products to the cart
-  await page.locator('button[data-product-id="1"]').click();
-  await page.locator('button[data-product-id="1"]').click();
-  await page.locator('button[data-product-id="2"]').click();
-  await page.locator('button[data-product-id="2"]').click();
-  await page.locator('button[data-product-id="3"]').click();
-  await page.locator('button[data-product-id="3"]').click();
-  await page.locator('button[data-product-id="3"]').click();
-
-  // Step 4: Verify cart items - Check quantities of each product
-  const rows = await page.locator("#cart-items tr");
-  const rowCount = await rows.count();
-  const expectedQuantities = {
-    "Product 1": "2",
-    "Product 2": "2",
-    "Product 3": "3",
-  };
-
-  for (let i = 0; i < rowCount; i++) {
-    const productName = await rows
-      .nth(i)
-      .locator("td:nth-child(1)")
-      .textContent();
-    const quantity = await rows.nth(i).locator("td:nth-child(3)").textContent();
-
-    console.log(
-      `Product: ${productName?.trim()}, Quantity: ${quantity?.trim()}`
+    await expect(page).toHaveURL(
+      "https://material.playwrightvn.com/02-xpath-product-page.html"
     );
+  });
 
-    // Step 5: Verify correct quantity for each product
-    await expect(quantity?.trim()).toBe(
-      expectedQuantities[productName?.trim() || ""]
-    );
-  }
+  // Add products to the cart
+  const products = [
+    {
+      id: 1,
+      name: "Product 1",
+      price: 10.0,
+      description: "This is a great product.",
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Product 2",
+      price: 20.0,
+      description: "This is another great product.",
+      quantity: 2,
+    },
+    {
+      id: 3,
+      name: "Product 3",
+      price: 30.0,
+      description: "This product is the best.",
+      quantity: 3,
+    },
+  ];
 
-  // Step 6: Calculate the total price for all products
-  // calculatedTotalPrice: the total amount of calculation
-  let calculatedTotalPrice = 0;
+  await test.step("Add products to the cart: 2 products 1.", async () => {
+    await page
+      .locator(`[data-product-id="${products[0].id}"]`)
+      .click({ clickCount: products[0].quantity });
+  });
 
-  //  Loop through each product row to calculate the total price
-  for (let i = 0; i < rowCount; i++) {
-    const priceText =
-      (await rows.nth(i).locator("td:nth-child(2)").textContent()) || "";
-    const quantityText =
-      (await rows.nth(i).locator("td:nth-child(3)").textContent()) || "";
-    const totalText =
-      (await rows.nth(i).locator("td:nth-child(4)").textContent()) || "";
+  await test.step("Add products to the cart: 2 products 2.", async () => {
+    await page
+      .locator(`[data-product-id="${products[1].id}"]`)
+      .click({ clickCount: products[1].quantity });
+  });
 
-    // Parse the price and quantity
-    const price = parseFloat(priceText.replace("$", ""));
-    const quantity = parseInt(quantityText.trim());
-    const total = parseFloat(totalText.replace("$", ""));
+  await test.step("Add products to the cart: 3 products 3.", async () => {
+    await page
+      .locator(`[data-product-id="${products[2].id}"]`)
+      .click({ clickCount: products[2].quantity });
+  });
 
-    // Calculate the product total
-    const calculatedProductTotal = price * quantity;
+  await test.step("Check the correct product quantity.", async () => {
+    const totalQty =
+      products[0].quantity + products[1].quantity + products[2].quantity;
 
-    // Step 7: Verify that the total matches the expected value
-    await expect(total).toBeCloseTo(calculatedProductTotal, 2); // Test with 2 decimal places accuracy
+    // Check if there are product types in the cart
+    const rowLocator = page.locator("//tbody//tr");
+    await expect(rowLocator).toHaveCount(products.length);
 
-    // Add the product total to the overall total
-    calculatedTotalPrice += calculatedProductTotal;
-  }
+    // Check the number of products in the shopping cart
+    let cartTotalQty = 0;
+    const allRows = await rowLocator.all();
+    for (const row of allRows) {
+      const rawQty = await row.locator("//td").nth(2).textContent();
+      cartTotalQty += parseInt(rawQty || "");
+    }
 
-  // Step 8: Get the total amount displayed
-  const displayedTotalPriceText = await page
-    .locator(".total-price")
-    .textContent();
-  const displayedTotalPrice = parseFloat(
-    displayedTotalPriceText.replace("$", "")
-  );
+    expect(cartTotalQty).toEqual(totalQty);
+  });
 
-  console.log("Tổng tiền tính toán:", calculatedTotalPrice);
-  console.log("Tổng tiền hiển thị:", displayedTotalPrice);
+  await test.step("Check the total product cost", async () => {
+    let totalBill = 0;
+    products.forEach((item) => (totalBill += item.price * item.quantity));
+    const rowLocators = await page.locator("//tbody//tr").all();
 
-  // Step 9: Verify the total cost is correct
-  await expect(displayedTotalPrice).toBeCloseTo(calculatedTotalPrice, 2);
+    let cartTotal = 0;
+    for (const row of rowLocators) {
+      const cells = await row.locator("//td").all();
+      const rawPrice = (await cells[1].textContent()) || "";
+      const rawQty = (await cells[2].textContent()) || "";
+
+      const itemPrice = parseInt(rawPrice.replace("$", ""));
+      const itemQty = parseInt(rawQty);
+      cartTotal += itemPrice * itemQty;
+    }
+
+    expect(cartTotal).toEqual(totalBill);
+  });
 });

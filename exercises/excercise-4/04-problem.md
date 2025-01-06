@@ -1,4 +1,3 @@
-## xem lại bài tham khảo của 3 bài trước
 # Javascript
 ## Đề bài:
 Tuổi của một người được tính dựa trên năm sinh của họ và năm hiện tại. Trong bài tập này, bạn sẽ viết một hàm để tính tuổi dựa trên năm sinh được nhập vào. Biết công thức tính tuổi:
@@ -38,9 +37,9 @@ Bạn có thể lấy năm hiện tại bằng cách sử dụng đối tượng
 Viết code automation cho test case sau:
 - Đi tới trang: https://material.playwrightvn.com/
 - Click vào: Bài học 3: Todo page
-- Thêm vào todo có nội dung: Xin chào, đây là bài thực hành ngày 18 tháng 9
+- Thêm vào todo có nội dung: Làm bài tập 4
 - Verify chỉ có 1 Todo duy nhất được add vào.
-- Sửa nội dung Todo: Xin chào, đây là bài thực hành ngày 18 tháng 9 - phiên bản đã chỉnh sửa
+- Sửa nội dung Todo: Cố gắng hoàn thành bài test của edit todo
 - Verify nội dung đã được chỉnh sửa
 - Xoá Todo
 - Verify Todo đã được xoá.

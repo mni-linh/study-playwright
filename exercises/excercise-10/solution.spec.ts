@@ -1,16 +1,35 @@
 /* JAVASCRIPT */
-function calculateAge(birthYear) {
-  const currentYear = new Date().getFullYear();
+function getCurrentDate() {
+  // Get the current date
+  const today = new Date();
 
-  if (birthYear > currentYear) {
-    console.log("Năm sinh không hợp lệ");
-  } else {
-    const age = currentYear - birthYear;
-    console.log(`Tuổi của bạn là: ${age}`);
-  }
+  // Get the day, month and year
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+
+  // Date, month, year format
+  return `Ngày hiện tại là: ${day}/${month}/${year}`;
 }
 
-calculateAge(1990);
-calculateAge(2025);
+// Gọi hàm và in kết quả
+console.log(getCurrentDate());
 
 /* PLAYWRIGHT*/
+import { expect, test } from "@playwright/test";
+
+test("problem 10", async ({ page }) => {
+  await page.route("*/**/api/v1/fruits", async (route) => {
+    const jsonBody: { name: string; id: number }[] = [
+      { name: "Cam", id: 1 },
+      { name: "Táo", id: 2 },
+      { name: "Xoài", id: 3 },
+    ];
+    await route.fulfill({ json: jsonBody });
+  });
+  await page.goto("https://demo.playwright.dev/api-mocking");
+
+  await expect(page.getByText("Cam")).toBeVisible();
+  await expect(page.getByText("Táo")).toBeVisible();
+  await expect(page.getByText("Xoài")).toBeVisible();
+});

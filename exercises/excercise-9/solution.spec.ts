@@ -27,8 +27,11 @@ import { expect, test } from "@playwright/test";
 import { randomInt } from "crypto";
 
 test("problem 9", async ({ request }) => {
+  // Step 1: Generate a random username
   let username = `linh${randomInt(1, 1000)}`;
-  console.log("username", username);
+  console.log("Generated username:", username);
+
+  // Step 2: Send a POST request to create a new user
   const response = await request.post("https://demoqa.com/Account/v1/User", {
     data: {
       userName: username,
@@ -36,9 +39,13 @@ test("problem 9", async ({ request }) => {
     },
   });
 
+  // Step 3: Parse and log the response body
   const bodyJson = await response.json();
-  console.log("bodyJson", bodyJson);
+  console.log("Response body:", bodyJson);
 
+  // Step 4: Verify the response status code
   expect(response.status()).toEqual(201);
+
+  // Step 5: Verify the username in the response matches the input username
   expect(bodyJson.username).toEqual(username);
 });

@@ -1,6 +1,6 @@
 /* JAVASCRIPT */
 
-/* PLAYWRIGHT*/
+/* PLAYWRIGHT */
 import path from "path";
 import os from "os";
 import fs from "fs";
@@ -8,8 +8,9 @@ import fs from "fs";
 import { expect, test } from "@playwright/test";
 import { parse } from "csv-parse/sync";
 
+// Initial header definition and header mapping
 const originHeaderRow = "STT,Tên học sinh,Lớp,Điểm Toán,Điểm Lý,Điểm Hóa";
-const headerMapping = new Map<string, string>([
+const headerMapping = new Map([
   ["STT", "no"],
   ["Tên học sinh", "fullname"],
   ["Lớp", "class"],
@@ -17,6 +18,8 @@ const headerMapping = new Map<string, string>([
   ["Điểm Lý", "physics_point"],
   ["Điểm Hóa", "chemistry_point"],
 ]);
+
+// List of new students
 const newRecords = [
   {
     no: "",
@@ -36,69 +39,82 @@ const newRecords = [
   },
 ];
 
-test("problem 13", async ({ page }) => {
-  await page.goto("https://material.playwrightvn.com/021-import-export.html");
+// Support function to create student authentication key according to "Student name - Class"
+function buildValueKey(name, className) {
+  return `${name} - ${className}`;
+}
 
-  // export to CSV
-  const tmpDir = os.tmpdir();
-  const downloadPromise = page.waitForEvent("download");
-  await page.locator("#exportButton").click();
-
-  const downloadFile = await downloadPromise;
-  const savedPath = path.join(tmpDir, downloadFile.suggestedFilename());
-  await downloadFile.saveAs(savedPath);
-
-  // read and parse downloaded CSV, re-mapping header
-  const fileContent = fs.readFileSync(savedPath, { encoding: "utf-8" });
+// Function to read and process CSV files
+function processCsv(fileContent, newRecords) {
+  // Analyze CSV content and map header
   const records = parse(fileContent, {
     delimiter: ",",
     trim: true,
     skip_empty_lines: true,
-    columns: (headers) => {
-      return headers.map((header) => headerMapping.get(header));
-    },
+    columns: (headers) => headers.map((header) => headerMapping.get(header)),
   });
 
-  // transform data
-  // remove 10A3 class
-  let filteredRecords = records.filter((record) => record.class != "10A3");
-  // add new records with new increment ID
+  // Remove students from class 10A3 and add new students
+  let updatedRecords = records.filter((record) => record.class !== "10A3");
+  updatedRecords = [...updatedRecords, ...newRecords];
 
-  filteredRecords = [...filteredRecords, ...newRecords];
+  // Update sequence number (STT)
+  updatedRecords.forEach((record, index) => {
+    record.no = index + 1;
+  });
 
-  // Update ID
-  for (let i = 0; i < filteredRecords.length; i++) {
-    filteredRecords[i].no = i + 1;
+  return updatedRecords;
+}
+
+// Function to write the list of new students to CSV
+function writeCsv(records, headerRow, filePath) {
+  let csvContent = headerRow;
+  for (const record of records) {
+    csvContent += "\n" + Object.values(record).join(",");
   }
+  fs.writeFileSync(filePath, csvContent);
+}
 
-  // write back to CSV file
-  const toImportCsvPath = path.join(tmpDir, "student_to_import.csv");
-  let csvBuffer = "";
-  csvBuffer += originHeaderRow;
-  for (const record of filteredRecords) {
-    csvBuffer += "\n" + Object.values(record).join(",");
-  }
-  fs.writeFileSync(toImportCsvPath, csvBuffer);
+// Test Playwright
+test("problem 13 - Export, Process, and Import CSV", async ({ page }) => {
+  await page.goto("https://material.playwrightvn.com/021-import-export.html");
 
-  // clicking import back
+  // 1.Export CSV file
+  const tmpDir = os.tmpdir();
+  const downloadPromise = page.waitForEvent("download");
+  await page.locator("#exportButton").click();
+  const downloadFile = await downloadPromise;
+
+  const exportedFilePath = path.join(tmpDir, downloadFile.suggestedFilename());
+  await downloadFile.saveAs(exportedFilePath);
+
+  // 2. Process data from CSV files
+  const fileContent = fs.readFileSync(exportedFilePath, { encoding: "utf-8" });
+  const updatedRecords = processCsv(fileContent, newRecords);
+
+  // 3. Ghi file CSV mới
+  const newCsvPath = path.join(tmpDir, "student_to_import.csv");
+  writeCsv(updatedRecords, originHeaderRow, newCsvPath);
+
+  // 4. Re-import the new CSV file
   const fileChooserPromise = page.waitForEvent("filechooser");
   await page.locator("#importButton").click();
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles(toImportCsvPath);
+  await fileChooser.setFiles(newCsvPath);
 
-  // assert
-  // 1. ensure no class 10A3 is shown
-  let rows = await page.locator("#studentTable tbody tr").all();
+  // 5. Check the results
+  const rows = await page.locator("#studentTable tbody tr").all();
+
+  // Checked there were no more students in class 10A3
   for (const row of rows) {
     if (await row.isVisible()) {
-      const classCell = row.locator("td").nth(2);
-      const classCellValue = await classCell.innerText();
+      const classCellValue = await row.locator("td").nth(2).innerText();
       expect(classCellValue).not.toBe("10A3");
     }
   }
 
-  // 2. check new records are added
-  const recordsSet: Set<String> = new Set();
+  // New student testing has been added
+  const recordsSet = new Set();
   for (const row of rows) {
     if (await row.isVisible()) {
       const studentName = await row.locator("td").nth(1).innerText();
@@ -113,12 +129,8 @@ test("problem 13", async ({ page }) => {
     );
   }
 
-  // cleanup
+  // 6. Clean up temporary files
   await downloadFile.delete();
-  fs.rmSync(toImportCsvPath);
-  fs.rmSync(savedPath);
+  fs.rmSync(newCsvPath);
+  fs.rmSync(exportedFilePath);
 });
-
-function buildValueKey(name: string, className: string): string {
-  return `${name} - ${className}`;
-}

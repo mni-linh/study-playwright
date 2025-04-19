@@ -24,6 +24,7 @@ BMI = cân nặng (kg) / (chiều cao (m) * chiều cao (m))
 - Phân loại: "Bình thường"
 
 # Playwright
+
 ## Đề bài
 Viết code automation cho test case sau:
 - Đi tới trang: https://material.playwrightvn.com/

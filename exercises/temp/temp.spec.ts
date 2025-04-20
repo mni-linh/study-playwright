@@ -18,5 +18,7 @@ calculateBMI(1.75, 68);
 /* PLAYWRIGHT */
 import { test } from "@playwright/test";
 test("problem 1", async ({ page }) => {
-  await page.goto("");
+  await page.goto("https://material.playwrightvn.com/");
+
+  await page.getByRole("link", { name: "Register" }).click();
 });

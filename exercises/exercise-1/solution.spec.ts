@@ -20,7 +20,7 @@ import { test, expect } from "@playwright/test";
 test("problem 1", async ({ page }) => {
   // Step 1: Navigate to the Register Page
   await page.goto("https://material.playwrightvn.com/");
-  await page.getByRole("link", { name: /Register Page/}).click();
+  await page.getByRole("link", { name: /Register Page/ }).click();
 
   // Step 2: Fill in Registration Details
   const username = "mni-linh";
@@ -30,13 +30,13 @@ test("problem 1", async ({ page }) => {
   await page.locator("#email").fill(email);
 
   // Step 3: Submit the Registration Form
-  await page.getByRole("button", { name: "Register" }).click();
+  await page.getByRole("link", { name: "Register" }).click();
 
   // Step 4: Validate Navigation to the Register Page
   await expect(page).toHaveURL(
     "https://material.playwrightvn.com/01-xpath-register-page.html"
   );
-  
+
   // Step 5: Validate Registration Table
   // Ensure only one row exists in the table
   await expect(page.locator("//tbody//tr")).toHaveCount(1);

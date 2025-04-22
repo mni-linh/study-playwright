@@ -44,14 +44,14 @@ test("problem 2", async ({ page }) => {
       .nth(i)
       .locator("td:nth-child(2)")
       .textContent();
-    const price = parseFloat(priceText?.replace("$", "") || "0"); 
+    const price = parseFloat(priceText?.replace("$", "") || "0");
 
     // Get the quantity from column 3
     const quantityText = await rows
       .nth(i)
       .locator("td:nth-child(3)")
       .textContent();
-    const quantity = parseInt(quantityText || "0"); 
+    const quantity = parseInt(quantityText || "0");
 
     // Calculate the total for this row
     const rowTotal = price * quantity;

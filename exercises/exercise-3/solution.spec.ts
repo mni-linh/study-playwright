@@ -19,7 +19,7 @@ isPrime(10);
 /* PLAYWRIGHT */
 import { expect, test } from "@playwright/test";
 
-test("problem 2", async ({ page }) => {
+test("problem 3", async ({ page }) => {
   await page.goto("/");
 
   // Step 1: Navigate to the Product Page

@@ -94,8 +94,8 @@ Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, hãy liên hệ với
 │   │   ├── Cấu trúc test (`test`, `expect`) ✅
 │   │   ├── Mở trang (`page.goto`) ✅
 │   │   ├── Tìm phần tử (`page.locator`) ✅
-│   │   ├── Thao tác cơ bản (click, fill, press)
-│   │   └── Assertions cơ bản (toBeVisible, toHaveText, ...)
+│   │   ├── Thao tác cơ bản (click, fill, press) ✅
+│   │   └── Assertions cơ bản (toBeVisible, toHaveText, ...) ✅
 │   ├── Hiểu về Locators (Các loại: text, css, xpath, role, test ID)
 │   ├── Auto-waiting (Cơ chế chờ tự động)
 │   └── Cấu hình cơ bản (`playwright.config.ts`) ✅

@@ -1,65 +1,30 @@
 /* JAVASCRIPT */
-function isPrime(num: number) {
-  if (num < 2) {
-    console.log(`${num} không phải là số nguyên tố`);
-    return;
+function calculateAge(birthYear: number) {
+  const currentYear = new Date().getFullYear();
+
+  if (birthYear > currentYear) {
+    console.log("Năm sinh không hợp lệ");
+  } else {
+    const age = currentYear - birthYear;
+    console.log(`Tuổi của bạn là: ${age}`);
   }
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) {
-      console.log(`${num} không phải là số nguyên tố`);
-      return;
-    }
-  }
-  console.log(`${num} là số nguyên tố`);
 }
 
-isPrime(7);
-isPrime(10);
+calculateAge(1990);
+calculateAge(2000);
+calculateAge(2025);
+calculateAge(2026);
 
 /* PLAYWRIGHT */
-import { expect, test } from "@playwright/test";
+import { chromium } from '@playwright/test';
 
-test("problem 2", async ({ page }) => {
-  await page.goto("/");
+(async () => {
+  const browser = await chromium.launch();
+  const context = await browser.newContext(); // tạo context mới
+  const page = await context.newPage();       // tạo trang/tab mới trong context
 
-  // Step 1: Navigate to the Product Page
-  await page.getByRole("link", { name: "Product page" }).click();
+  await page.goto('https://example.com');
+  await page.screenshot({ path: 'example.png' });
 
-  // Step 2: Click on the "Add to cart" button for the first product
-  await page.locator('.add-to-cart[data-product-id="1"]').dblclick();
-  await page.locator('.add-to-cart[data-product-id="2"]').dblclick();
-  await page.locator('.add-to-cart[data-product-id="3"]').dblclick();
-  await page.locator('.add-to-cart[data-product-id="3"]').click();
-
-  // Step 3: Check cart count
-  await expect(page.locator("//tbody/tr[1]/td[3]")).toHaveText("2");
-  await expect(page.locator("//tbody/tr[2]/td[3]")).toHaveText("2");
-  await expect(page.locator("//tbody/tr[3]/td[3]")).toHaveText("3");
-
-  let totalPrice = 0;
-  const rows = page.locator("//tbody/tr");
-  for (let i = 0; i < (await rows.count()); i++) {
-    // Get the price from column 2
-    const priceText = await rows
-      .nth(i)
-      .locator("td:nth-child(2)")
-      .textContent();
-    const price = parseFloat(priceText?.replace("$", "") || "0"); 
-
-    // Get the quantity from column 3
-    const quantityText = await rows
-      .nth(i)
-      .locator("td:nth-child(3)")
-      .textContent();
-    const quantity = parseInt(quantityText || "0"); 
-
-    // Calculate the total for this row
-    const rowTotal = price * quantity;
-    // Sum up the total price
-    totalPrice += rowTotal;
-  }
-  const totalPriceText = await page.locator("tfoot .total-price").textContent();
-  const totalPriceValue = parseFloat(totalPriceText?.replace("$", "") || "0");
-  // Validate the total price
-  expect(totalPriceValue).toEqual(totalPrice);
-});
+  await browser.close();
+})();

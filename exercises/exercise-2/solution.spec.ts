@@ -1,105 +1,114 @@
 /* JAVASCRIPT */
-function reverseString(input: string) {
-  const characters = input.split("");
-
-  const reversedCharacters = characters.reverse();
-
-  const reversedString = reversedCharacters.join("");
-
-  console.log(`Chuỗi đảo ngược của ${input}:`, reversedString);
-
-  return reversedString;
+function reverseString(str: string) {
+  const charStr = str.split("");
+  let reversedStr = "";
+  for (let i = charStr.length - 1; i >= 0; i--) {
+    reversedStr += charStr[i];
+  }
+  return reversedStr;
 }
 
-reverseString("hello");
+reverseString("hello"); // "olleh"
 
-/* PLAYWRIGHT*/
-import { test, expect } from "@playwright/test";
-
-// Data test
-const infoUser = {
-  username: "mni-linh",
-  email: "tranthitulinh1305@gmail.com",
-  gender: "Female",
-  hobbies: "Traveling",
-  interests: ["Art", "Music", "Technology"],
-  country: "Canada",
-  dob: "2000-11-28",
-  // profilePicture: "daily-exercises/2024-12/30/excercise/images/examp.jpg",
-  biography: "I'm from BR-VT",
-  rateUs: "3",
-  favColor: "#33CC99",
-  newsletter: "Subscribe",
-  enableFeature: "Enable Feature",
-};
+/* PLAYWRIGHT */
+import { expect, test } from "@playwright/test";
 
 test("problem 2", async ({ page }) => {
-  // Step 1: Navigate to the application
-  await page.goto("https://material.playwrightvn.com/");
+  await page.goto("/");
 
-  // Step 2: Navigate to the Register Page
-  await page.getByRole("link", { name: /Register Page/}).click();
+  // Step 1: Navigate to the Register Page
+  await page.getByRole("link", { name: "Register" }).click();
 
-  // Step 3: Fill in user information
-  await page.getByLabel("Username").fill(infoUser.username);
-  await page.getByLabel("Email").fill(infoUser.email);
-  await page.getByLabel(infoUser.gender, { exact: true }).check();
-  await page.getByLabel(infoUser.hobbies, { exact: true }).check();
-  await page.getByLabel("Interests").selectOption(infoUser.interests);
-  await page.getByLabel("Country").selectOption(infoUser.country);
-  await page.getByLabel("Date of Birth").fill(infoUser.dob);
-  // await page
-  //   .getByLabel("Profile Picture")
-  //   .setInputFiles(infoUser.profilePicture);
-  await page.getByLabel("Biography").fill(infoUser.biography);
-  await page.getByLabel("Rate Us").fill(infoUser.rateUs);
-  await page.locator("#favcolor").evaluate((element: any, value: string) => {
-    element.value = value; 
-    element.dispatchEvent(new Event("input", { bubbles: true })); 
-    element.dispatchEvent(new Event("change", { bubbles: true })); 
-  }, infoUser.favColor);
-  await page.getByLabel(infoUser.newsletter).check();
-  await page.locator(".switch").click();
-  await page.getByLabel(infoUser.enableFeature).check();
+  // Step 2: Fill in Registration Details
+  // Data test
+  const registrationDetails = {
+    username: "mni-linh",
+    email: "tranthitulinh1305@gmail.com",
+    gender: "female",
+    hobbies: "traveling",
+    interests: "art",
+    country: "australia",
+    dateOfBirth: "2000-11-28",
+    imageProfile: "exercises/exercise-2/images/examp.jpg",
+    biography: "I'm Linh",
+    rate: "8",
+    favColor: "#4caf50",
+    newsLetter: "Yes",
+    enableFeature: "Yes",
+    starRating: 4.2,
+    customDate: "",
+  };
 
-  // Step 4: Submit the form
+  const {
+    username,
+    email,
+    gender,
+    hobbies,
+    interests,
+    country,
+    dateOfBirth,
+    imageProfile,
+    biography,
+    rate,
+    favColor,
+    newsLetter,
+    enableFeature,
+    starRating,
+    customDate,
+  } = registrationDetails;
+
+  // Fill in the registration form
+  await page.locator("#username").fill(username);
+  await page.locator("#email").fill(email);
+  await page.locator(`#${gender}`).click();
+  await page.locator(`#${hobbies}`).click();
+  await page.locator("#interests").selectOption(`${interests}`);
+  await page.locator("#country").selectOption(`${country}`);
+  await page.locator("#dob").fill(dateOfBirth);
+  await page.locator("#profile").setInputFiles(imageProfile);
+  await page.locator("#bio").fill(biography);
+  await page.locator("#rating").fill(rate);
+  await page.locator("#favcolor").fill(favColor);
+  await page.locator("#newsletter").click();
+  await page.locator(".switch").check();
+
+  const percent = starRating / 5;
+  const ratingBox = await page.locator("#starRating").boundingBox();
+
+  if (ratingBox) {
+    const x = ratingBox.x + ratingBox.width * percent;
+    const y = ratingBox.y + ratingBox.height / 2;
+    await page.mouse.click(x, y);
+  }
+
   await page.getByRole("button", { name: "Register" }).click();
 
-  // Step 5: Verify output
+  // Check URL after registration
   await expect(page).toHaveURL(
     "https://material.playwrightvn.com/01-xpath-register-page.html"
   );
-  await expect(page.locator("//tbody//tr")).toHaveCount(1);
-  await expect(page.locator("//tbody//td").nth(0)).toHaveText("1");
-  await expect(page.locator("//tbody//td").nth(1)).toHaveText(
-    infoUser.username
+
+  // Get the count of rows in the table
+  const rowCount = await page.locator("//tbody/tr").count();
+  // Get the last row in the table
+  const lastRow = page.locator("//tbody/tr[last()]");
+
+  // Validate the number of rows in the table
+  await expect(lastRow.locator("td").nth(0)).toHaveText(rowCount.toString());
+  // Validate the username and email in the last row of the table
+  await expect(lastRow.locator("td").nth(1)).toHaveText(username);
+  await expect(lastRow.locator("td").nth(2)).toHaveText(email);
+  await expect(lastRow.locator("td").nth(3)).toHaveText(
+    `Gender: ${gender}
+  Hobbies: ${hobbies}
+  Country: ${country}
+  Date of Birth: ${dateOfBirth}
+  Biography: ${biography}
+  Rating: ${rate}
+  Favorite Color: ${favColor}
+  Newsletter: ${newsLetter}
+  Enable Feature: ${enableFeature}
+  Star Rating: ${starRating}⭐
+  Custom Date: ${customDate}`
   );
-  await expect(page.locator("//tbody//td").nth(2)).toHaveText(infoUser.email);
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Gender: ${infoUser.gender.toLowerCase()}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Hobbies: ${infoUser.hobbies.toLowerCase()}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Country: ${infoUser.country.toLowerCase()}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Date of Birth: ${infoUser.dob}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Biography: ${infoUser.biography}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Rating: ${infoUser.rateUs}`
-  );
-  await expect(page.locator("//tbody//td").nth(3)).toContainText(
-    `Favorite Color: ${infoUser.favColor.toLowerCase()}`
-  );
-  // await expect(page.locator("//tbody//td").nth(3)).toContainText(
-  //   `Newsletter: ${}`
-  // );
-  // await expect(page.locator("//tbody//td").nth(3)).toContainText(
-  //   "Enable Feature: "
-  // );
 });

@@ -1,41 +1,86 @@
 /* JAVASCRIPT */
-function calculateBMI(height: number, weight: number) {
-  const BMI = weight / Math.pow(height, 2);
-
-  if (BMI < 18.5) {
-    console.log(`Kết quả BMI: ${BMI}\nPhân loại: Gầy`);
-  } else if (BMI < 24.9) {
-    console.log(`Kết quả BMI: ${BMI}\nPhân loại: Bình thường`);
-  } else if (BMI < 29) {
-    console.log(`Kết quả BMI: ${BMI}\nPhân loại: Thừa cân`);
-  } else {
-    console.log(`Kết quả BMI: ${BMI}\nPhân loại: Béo phì`);
+function reverseString(str: string) {
+  const charStr = str.split("");
+  let reversedStr = "";
+  for (let i = charStr.length - 1; i >= 0; i--) {
+    reversedStr += charStr[i];
   }
+  return reversedStr;
 }
 
-calculateBMI(1.75, 68);
+reverseString("hello"); // "olleh"
 
 /* PLAYWRIGHT */
 import { expect, test } from "@playwright/test";
 
-// test.beforeEach(async ({ page }) => {
-//   await page.goto("https://material.playwrightvn.com/");
-// });
-
-test("problem 1", async ({ page }) => {
+test("problem 2", async ({ page }) => {
   await page.goto("/");
 
   // Step 1: Navigate to the Register Page
   await page.getByRole("link", { name: "Register" }).click();
 
   // Step 2: Fill in Registration Details
-  const username = "mni-linh";
-  const email = "tranthitulinh1305@gmail.com";
+  // Data test
+  const registrationDetails = {
+    username: "mni-linh",
+    email: "tranthitulinh1305@gmail.com",
+    gender: "female",
+    hobbies: "traveling",
+    interests: "art",
+    country: "australia",
+    dateOfBirth: "2000-11-28",
+    imageProfile: "exercises/temp/images/examp.jpg",
+    biography: "I'm Linh",
+    rate: "8",
+    favColor: "#4caf50",
+    newsLetter: "Yes",
+    enableFeature: "Yes",
+    starRating: 4.2,
+    customDate: "",
+  };
 
+  const {
+    username,
+    email,
+    gender,
+    hobbies,
+    interests,
+    country,
+    dateOfBirth,
+    imageProfile,
+    biography,
+    rate,
+    favColor,
+    newsLetter,
+    enableFeature,
+    starRating,
+    customDate,
+  } = registrationDetails;
+
+  // Fill in the registration form
   await page.locator("#username").fill(username);
   await page.locator("#email").fill(email);
+  await page.locator(`#${gender}`).click();
+  await page.locator(`#${hobbies}`).click();
+  await page.locator("#interests").selectOption(`${interests}`);
+  await page.locator("#country").selectOption(`${country}`);
+  await page.locator("#dob").fill(dateOfBirth);
+  await page.locator("#profile").setInputFiles(imageProfile);
+  await page.locator("#bio").fill(biography);
+  await page.locator("#rating").fill(rate);
+  await page.locator("#favcolor").fill(favColor);
+  await page.locator("#newsletter").click();
+  await page.locator(".switch").check();
 
-  // Step 3: Submit the Registration Form
+  const percent = starRating / 5;
+  const ratingBox = await page.locator("#starRating").boundingBox();
+
+  if (ratingBox) {
+    const x = ratingBox.x + ratingBox.width * percent;
+    const y = ratingBox.y + ratingBox.height / 2;
+    await page.mouse.click(x, y);
+  }
+
   await page.getByRole("button", { name: "Register" }).click();
 
   // Check URL after registration
@@ -53,4 +98,17 @@ test("problem 1", async ({ page }) => {
   // Validate the username and email in the last row of the table
   await expect(lastRow.locator("td").nth(1)).toHaveText(username);
   await expect(lastRow.locator("td").nth(2)).toHaveText(email);
+  await expect(lastRow.locator("td").nth(3)).toHaveText(
+    `Gender: ${gender}
+  Hobbies: ${hobbies}
+  Country: ${country}
+  Date of Birth: ${dateOfBirth}
+  Biography: ${biography}
+  Rating: ${rate}
+  Favorite Color: ${favColor}
+  Newsletter: ${newsLetter}
+  Enable Feature: ${enableFeature}
+  Star Rating: ${starRating}⭐
+  Custom Date: ${customDate}`
+  );
 });

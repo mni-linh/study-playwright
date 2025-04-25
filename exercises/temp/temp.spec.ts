@@ -1,30 +1,27 @@
-/* JAVASCRIPT */
-function calculateAge(birthYear: number) {
-  const currentYear = new Date().getFullYear();
+import { test, expect } from '@playwright/test';
 
-  if (birthYear > currentYear) {
-    console.log("Năm sinh không hợp lệ");
-  } else {
-    const age = currentYear - birthYear;
-    console.log(`Tuổi của bạn là: ${age}`);
-  }
-}
+test('Xử lý mở tab mới từ playwright.dev', async ({ page, context }) => {
+  await page.goto('https://playwright.dev');
 
-calculateAge(1990);
-calculateAge(2000);
-calculateAge(2025);
-calculateAge(2026);
+  // Giả sử link "GitHub" ở footer mở ra tab mới (dùng target="_blank")
+  const [newTab] = await Promise.all([
+    context.waitForEvent('page'),
+    page.getByLabel('GitHub repository').click(), // Cái này là thẻ trên cùng
+  ]);
+  
+  // Đợi tab mới load
+  await newTab.waitForLoadState();
 
-/* PLAYWRIGHT */
-import { chromium } from '@playwright/test';
+  // Kiểm tra URL tab mới
+  expect(newTab.url()).toContain('github.com');
 
-(async () => {
-  const browser = await chromium.launch();
-  const context = await browser.newContext(); // tạo context mới
-  const page = await context.newPage();       // tạo trang/tab mới trong context
+  // Tương tác (nếu cần)
+  const title = await newTab.title();
+  console.log('Title tab mới:', title);
 
-  await page.goto('https://example.com');
-  await page.screenshot({ path: 'example.png' });
+  // Đóng tab mới
+  await newTab.close();
 
-  await browser.close();
-})();
+  // Quay về tab cũ
+  await page.bringToFront();
+});

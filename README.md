@@ -96,18 +96,18 @@ Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, hãy liên hệ với
 │   │   ├── Tìm phần tử (`page.locator`) ✅
 │   │   ├── Thao tác cơ bản (click, fill, press) ✅
 │   │   └── Assertions cơ bản (toBeVisible, toHaveText, ...) ✅
-│   ├── Hiểu về Locators (Các loại: text, css, xpath, role, test ID)
-│   ├── Auto-waiting (Cơ chế chờ tự động)
+│   ├── Hiểu về Locators (Các loại: text, css, xpath, role, test ID) ✅
+│   ├── Auto-waiting (Cơ chế chờ tự động) ✅
 │   └── Cấu hình cơ bản (`playwright.config.ts`) ✅
 │
 ├── Giai đoạn 2: Kỹ thuật Trung cấp
-│   ├── Xử lý các loại Phần tử phức tạp (Dropdowns, Checkboxes, Iframes, Dynamic content)
-│   ├── Xử lý Dialogs (Alerts, Confirms, Prompts)
-│   ├── Chụp ảnh màn hình & Quay video
-│   ├── Tracing (Playwright Trace Viewer)
-│   ├── Xử lý nhiều Tab/Window
-│   ├── Xử lý Authentication (`storageState`)
-│   └── Quản lý Test Suites & Grouping (`describe`, Hooks: beforeEach, afterEach, ...)
+│   ├── Xử lý các loại Phần tử phức tạp (Dropdowns, Checkboxes, Iframes, Dynamic content) ✅
+│   ├── Xử lý Dialogs (Alerts, Confirms, Prompts) ✅
+│   ├── Chụp ảnh màn hình & Quay video ✅
+│   ├── Tracing (Playwright Trace Viewer) ✅
+│   ├── Xử lý nhiều Tab/Window  ✅
+│   ├── Xử lý Authentication (`storageState`) ✅
+│   └── Quản lý Test Suites & Grouping (`describe`, Hooks: beforeEach,afterEach, ...) ✅
 │
 ├── Giai đoạn 3: Nâng cao & Áp dụng vào Dự án
 │   ├── Page Object Model (POM)

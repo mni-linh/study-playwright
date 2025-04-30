@@ -5,24 +5,16 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./lessons/api-testing",
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Whether to exit with an error if any tests are marked as test.only. Useful on CI. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only. On CI run maximum 2 times, on local doesn't run */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI: Quy định số lượng worker (luồng chạy kiểm thử). Trong CI: Chỉ chạy 1 worker để tránh lỗi song song. Ở local: Để Playwright tự động tối ưu (undefined)  */
   workers: process.env.CI ? 1 : undefined,
-  /* Create report with format HTML. After run test, u can open file playwright-report/index.html to see result. See more: https://playwright.dev/docs/test-reporters */
   reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "https://material.playwrightvn.com/",
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    ignoreHTTPSErrors: true, // skip error HTTPS
+    ignoreHTTPSErrors: true,
   },
 
   /* Configure projects for major browsers */

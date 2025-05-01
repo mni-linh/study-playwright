@@ -4,7 +4,7 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./lessons/api-testing",
+  testDir: "./lessons/reporters/demo",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -12,7 +12,6 @@ export default defineConfig({
   reporter: "html",
   use: {
     baseURL: "https://material.playwrightvn.com/",
-
     trace: "on-first-retry",
     ignoreHTTPSErrors: true,
   },

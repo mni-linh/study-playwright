@@ -40,11 +40,11 @@
 │   ├── Page Object Model (POM) ✅
 │   ├── Data-Driven Testing (DDT) ✅
 │   ├── API Testing với Playwright (`request` context) ✅
-│   ├── Mocking & Handling Network Requests
-│   ├── Chạy Parallel Tests
-│   ├── Reporters (HTML, JUnit, Tùy chỉnh)
+│   ├── Mocking & Handling Network Requests ✅
+│   ├── Chạy Parallel Tests ✅
+│   ├── Reporters (HTML, JUnit, Tùy chỉnh) ✅
 │   ├── Tích hợp CI/CD (GitHub Actions, GitLab CI, Jenkins, ...)
-│   └── Xử lý lỗi & Retry
+│   └── Xử lý lỗi & Retry ✅
 │
 ├── Giai đoạn 4: Phát triển & Chuyên sâu
 │   ├── Tối ưu hiệu suất & Độ tin cậy

@@ -1,0 +1,11 @@
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="17.941052">
+<testsuite name="example.spec.ts" timestamp="2025-05-01T07:45:14.648Z" hostname="chromium" tests="1" failures="0" skipped="0" time="15.236" errors="0">
+<testcase name="Basic Google test" classname="example.spec.ts" time="15.236">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\example-Basic-Google-test-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>
